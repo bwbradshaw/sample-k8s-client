@@ -38,7 +38,7 @@ func main() {
 	if home := homedir.HomeDir(); home != "" {
 		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
 	} else {
-		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
+		kubeconfig = flag.String("kubeconfig", "", "/Users/ben/.kube/config")
 	}
 	flag.Parse()
 
@@ -53,7 +53,7 @@ func main() {
 
 	// Setup variables
 	var (
-		namespaceName = "andromeda"
+		namespaceName = "milky-way"
 		label         = "app=sample-app"
 		podName       = "hello-world-pod"
 	)
@@ -64,7 +64,6 @@ func main() {
 	// 3. Create new namespace
 	fmt.Println("\nCreating namespace ...")
 	createNamespace(clientset, namespaceName)
-	createNamespace(clientset, "milky-way")
 
 	// List namespaces after namespace creation
 	fmt.Println("\n** Namespaces After Creation **")
@@ -77,7 +76,6 @@ func main() {
 	// 4. Create static pod
 	fmt.Println("\nCreating pod ...")
 	createPod(clientset, namespaceName)
-	createPod(clientset, "milky-way")
 	time.Sleep(15 * time.Second)
 
 	// 5. List pods with label
