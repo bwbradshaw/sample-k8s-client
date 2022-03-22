@@ -18,7 +18,6 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	apiv1 "k8s.io/api/core/v1"
-	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	coreinformers "k8s.io/client-go/informers/core/v1"
 
@@ -106,7 +105,7 @@ func listNamespaces(clientset *kubernetes.Clientset) {
 }
 
 func createNamespace(clientset *kubernetes.Clientset, namespaceName string) {
-	namespaceObj := &corev1.Namespace{
+	namespaceObj := &apiv1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: namespaceName,
 		},
@@ -127,7 +126,7 @@ func createPod(clientset *kubernetes.Clientset, namespaceName string) {
 	)
 
 	// Declare static pod definition
-	podObj := &corev1.Pod{
+	podObj := &apiv1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: appName,
 			Labels: map[string]string{
@@ -230,11 +229,11 @@ func launchInformer(clientset *kubernetes.Clientset, namespaceName string) {
 }
 
 func (controller *Controller) podAdded(modifiedResource interface{}) {
-	pod := modifiedResource.(*corev1.Pod)
+	pod := modifiedResource.(*apiv1.Pod)
 	fmt.Printf("\n -> pod: %s created in namespace: %s <-\n", pod.Name, pod.Namespace)
 }
 
 func (controller *Controller) podDeleted(modifiedResource interface{}) {
-	pod := modifiedResource.(*corev1.Pod)
+	pod := modifiedResource.(*apiv1.Pod)
 	fmt.Printf("\n ->pod: %s deleted in namespace: %s <-\n", pod.Name, pod.Namespace)
 }
